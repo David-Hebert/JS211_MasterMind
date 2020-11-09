@@ -1,11 +1,13 @@
-'use strict';
+// 'use strict';
 
-const assert = require('assert');
-const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+// const assert = require('assert');
+// const readline = require('readline');
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout
+// });
+
+
 
 let board = [];
 let solution = '';
@@ -28,13 +30,48 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const generateHint = () =>  {
+const generateHint = (guess) =>  {
   // your code here
+  let solutionArray = [' ', ' ', ' ', ' '].split("");
+  let guessArray = [' ', ' ', ' ', ' '].split("");
+  let correctLetters = 0;
+  let correctLetterLocations = 0;
+
+  for (let i = 0; i < solutionArray.length; i++) {
+    if (solutionArray[i] === guessArray[i]) {
+      correctLetterLocations ++;
+      solutionArray[i] = null;
+    }
+  }
+  for (let i = 0; i < solutionArray.length; i++) {
+    let targetIndex = solutionArray.indexOf(guessArray[i])
+    if (targetIndex > -1) {
+      correctLetters++;
+      solutionArray[targetIndex] = null;
+    }
+  }
+
+  let hint = correctLetterLocations.toString() + "-" + correctLetters.toString();
+  return hint;
 }
 
 const mastermind = (guess) => {
-  solution = 'abcd'; // Comment this out to generate a random solution
+  const solution = 'abcd'; // Comment this out to generate a random solution
   // your code here
+  if (guess == solution) {
+    console.log("You did it!")
+    return "You did it!"
+  } else {
+    let hint = generateHint(guess);
+    board.push(guess + " " + hint)
+    if (board.length > 10) {
+      console.log("You lose")
+      return "You lose"
+    } else {
+      console.log("Try again")
+      return "Try Again"
+    }
+  }
 }
 
 
